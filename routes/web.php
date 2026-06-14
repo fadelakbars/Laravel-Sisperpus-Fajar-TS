@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\Admin\BukuController;
 use App\Http\Controllers\Admin\PeminjamanController;
+use App\Http\Controllers\Anggota\DashboardController as AnggotaDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
                 ->name('peminjaman.kembalikan');
         });
 
-    Route::view('/anggota/dashboard', 'anggota.dashboard')
+    Route::get('/anggota/dashboard', [AnggotaDashboardController::class, 'index'])
         ->middleware('anggota')
         ->name('anggota.dashboard');
 });

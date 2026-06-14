@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? config('app.name', 'Libris') }}</title>
+    <title>{{ $title ?? config('app.name', 'Sisperpus') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full bg-slate-50 font-sans text-slate-900 antialiased">
@@ -23,7 +23,7 @@
 
                 <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div class="flex h-16 shrink-0 items-center">
-                        <span class="text-2xl font-bold tracking-tight text-indigo-600">Libris</span>
+                        <span class="text-2xl font-bold tracking-tight text-indigo-600">Sisperpus</span>
                     </div>
                     <nav class="flex flex-1 flex-col">
                         <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -43,7 +43,7 @@
     <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-slate-200 bg-white px-6 pb-4">
             <div class="flex h-16 shrink-0 items-center">
-                <span class="text-2xl font-bold tracking-tight text-indigo-600 font-serif italic">Libris</span>
+                <span class="text-2xl font-bold tracking-tight text-indigo-600 font-serif italic">Sisperpus</span>
             </div>
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">

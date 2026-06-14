@@ -1,7 +1,7 @@
-<x-layouts.auth :title="'Login - Libris'">
+<x-layouts.auth :title="'Login - Sisperpus'">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <div class="flex justify-center">
-            <span class="text-4xl font-bold tracking-tight text-indigo-600 font-serif italic">Libris</span>
+            <span class="text-4xl font-bold tracking-tight text-indigo-600 font-serif italic">Sisperpus</span>
         </div>
         <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-slate-900">
             Masuk ke Akun Anda
@@ -60,8 +60,8 @@
                 <div class="mt-6 grid grid-cols-1 gap-4 text-sm">
                     <div class="rounded-lg bg-slate-50 p-4 border border-slate-100">
                         <div class="flex flex-col gap-1">
-                            <p class="text-slate-600">Admin: <span class="font-semibold text-indigo-600">admin@libris.test</span></p>
-                            <p class="text-slate-600">Anggota: <span class="font-semibold text-indigo-600">anggota@libris.test</span></p>
+                            <p class="text-slate-600">Admin: <span class="font-semibold text-indigo-600">admin@sisperpus.test</span></p>
+                            <p class="text-slate-600">Anggota: <span class="font-semibold text-indigo-600">anggota@sisperpus.test</span></p>
                             <p class="text-slate-400 mt-1 text-xs">Password: <span class="italic">password</span></p>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
         </div>
 
         <p class="mt-10 text-center text-sm text-slate-400">
-            &copy; {{ date('Y') }} Libris Sisperpus. All rights reserved.
+            &copy; {{ date('Y') }} Sisperpus Sisperpus. All rights reserved.
         </p>
     </div>
 </x-layouts.auth>

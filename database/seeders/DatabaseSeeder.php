@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::query()->updateOrCreate([
-            'email' => 'admin@libris.test',
+            'email' => 'admin@sisperpus.test',
         ], [
             'name' => 'Admin Perpustakaan',
             'nim' => null,
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::query()->updateOrCreate([
-            'email' => 'anggota@libris.test',
+            'email' => 'anggota@sisperpus.test',
         ], [
             'name' => 'Anggota Demo',
             'nim' => '2300000001',

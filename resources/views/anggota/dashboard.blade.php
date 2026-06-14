@@ -1,4 +1,4 @@
-<x-layouts.app :title="'Dashboard Anggota - Libris'">
+<x-layouts.app :title="'Dashboard Anggota - Sisperpus'">
     <div class="space-y-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Halo, {{ auth()->user()->name }}</h1>

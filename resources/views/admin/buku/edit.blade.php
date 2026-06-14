@@ -1,4 +1,4 @@
-<x-layouts.app :title="'Edit Buku - Libris'">
+<x-layouts.app :title="'Edit Buku - Sisperpus'">
     <div class="max-w-3xl mx-auto space-y-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edit Data Buku</h1>

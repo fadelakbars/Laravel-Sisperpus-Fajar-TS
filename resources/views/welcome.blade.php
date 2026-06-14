@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Libris - Sistem Perpustakaan Kampus</title>
+    <title>Sisperpus - Sistem Perpustakaan Kampus</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full font-sans antialiased text-slate-900">
@@ -27,7 +27,7 @@
                         </span>
                     </a>
                 </div>
-                <h1 class="mt-10 text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl font-serif">Libris.</h1>
+                <h1 class="mt-10 text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl font-serif">Sisperpus.</h1>
                 <p class="mt-6 text-lg leading-8 text-slate-600">Kelola katalog buku, sirkulasi peminjaman, dan data anggota dalam satu sistem yang rapi, modern, dan sangat mudah digunakan.</p>
                 <div class="mt-10 flex items-center gap-x-6">
                     <a href="{{ route('login') }}" class="rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

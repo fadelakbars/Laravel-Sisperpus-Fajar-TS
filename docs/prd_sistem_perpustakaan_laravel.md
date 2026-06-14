@@ -1,11 +1,11 @@
 # Dokumen Persyaratan Produk (PRD) & Panduan Implementasi
-## Sistem Informasi Perpustakaan Kampus Sederhana (Libris)
+## Sistem Informasi Perpustakaan Kampus Sederhana (Sisperpus)
 **Berbasis Laravel 13**
 
 ---
 
 ## 1. Ringkasan Produk
-Sistem Informasi Perpustakaan Kampus Sederhana (**Libris**) adalah aplikasi web internal untuk mendigitalisasi pengelolaan katalog buku, sirkulasi peminjaman, pengembalian, dan pemantauan denda di lingkungan perpustakaan jurusan atau kampus.
+Sistem Informasi Perpustakaan Kampus Sederhana (**Sisperpus**) adalah aplikasi web internal untuk mendigitalisasi pengelolaan katalog buku, sirkulasi peminjaman, pengembalian, dan pemantauan denda di lingkungan perpustakaan jurusan atau kampus.
 
 Dokumen ini menjadi acuan rancangan sebelum implementasi. Fokus utamanya adalah menghasilkan struktur data, alur bisnis, dan pembagian hak akses yang jelas agar tahap pengembangan dapat dilakukan secara bertahap dan tetap konsisten dengan basis proyek yang sudah diinisialisasi.
 

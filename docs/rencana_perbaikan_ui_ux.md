@@ -1,6 +1,6 @@
-# Rencana Perbaikan UI/UX - Libris (Light Mode)
+# Rencana Perbaikan UI/UX - Sisperpus (Light Mode)
 
-Dokumen ini merinci langkah-langkah transformasi antarmuka pengguna (UI) dan pengalaman pengguna (UX) untuk aplikasi Sisperpus (Libris), berpindah dari estetika gelap ke tema **Minimalis, Modern, Clean, dan Light Mode**.
+Dokumen ini merinci langkah-langkah transformasi antarmuka pengguna (UI) dan pengalaman pengguna (UX) untuk aplikasi Sisperpus (Sisperpus), berpindah dari estetika gelap ke tema **Minimalis, Modern, Clean, dan Light Mode**.
 
 ## 1. Visi Desain
 *   **Minimalis:** Menghilangkan elemen visual yang tidak perlu untuk fokus pada konten.
@@ -19,7 +19,7 @@ Dokumen ini merinci langkah-langkah transformasi antarmuka pengguna (UI) dan pen
     *   Peringatan/Denda: `amber-500`
 *   **Tipografi:** `Instrument Sans` (Bawaan) dengan fallback `Inter`.
 
-## 3. Arsitektur Komponen (Libris UI Kit)
+## 3. Arsitektur Komponen (Sisperpus UI Kit)
 Membangun library komponen Blade untuk konsistensi:
 *   `x-ui.layout.app`: Layout utama dengan Sidebar yang menetap.
 *   `x-ui.button`: Komponen tombol dengan varian `primary`, `secondary`, `ghost`, dan `danger`.

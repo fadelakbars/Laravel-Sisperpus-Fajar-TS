@@ -1,4 +1,4 @@
-<x-layouts.app :title="'Tambah Buku - Libris'">
+<x-layouts.app :title="'Tambah Buku - Sisperpus'">
     <div class="max-w-3xl mx-auto space-y-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Tambah Buku Baru</h1>

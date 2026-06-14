@@ -1,4 +1,4 @@
-<x-layouts.app :title="'Catat Peminjaman - Libris'">
+<x-layouts.app :title="'Catat Peminjaman - Sisperpus'">
     <div class="max-w-3xl mx-auto space-y-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Peminjaman Baru</h1>

@@ -66,6 +66,15 @@
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 @forelse ($daftarBuku as $buku)
                     <x-ui.card padding="p-5" class="group transition-all hover:border-indigo-200 hover:shadow-md">
+                        <div class="mb-4 flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl bg-slate-100">
+                            @if($buku->urlGambarSampul())
+                                <img src="{{ $buku->urlGambarSampul() }}" alt="Sampul {{ $buku->judul }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]">
+                            @else
+                                <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-white px-6 text-center">
+                                    <span class="text-xs font-bold uppercase tracking-[0.35em] text-slate-400">Tidak Ada Sampul</span>
+                                </div>
+                            @endif
+                        </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
                         <h3 class="mt-2 text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
                         <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>

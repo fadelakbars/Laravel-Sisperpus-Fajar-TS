@@ -38,6 +38,7 @@
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead class="bg-slate-50">
                         <tr>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Sampul</th>
                             <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Informasi Buku</th>
                             <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Katalog</th>
                             <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Stok & Rak</th>
@@ -47,6 +48,15 @@
                     <tbody class="divide-y divide-slate-200 bg-white">
                         @forelse ($daftarBuku as $buku)
                             <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex h-20 w-14 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
+                                        @if($buku->urlGambarSampul())
+                                            <img src="{{ $buku->urlGambarSampul() }}" alt="Sampul {{ $buku->judul }}" class="h-full w-full object-cover">
+                                        @else
+                                            <span class="px-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">No Cover</span>
+                                        @endif
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm font-semibold text-slate-900">{{ $buku->judul }}</div>
                                     <div class="text-xs text-slate-500">{{ $buku->penulis }}</div>
@@ -80,7 +90,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-400 italic">Belum ada data buku.</td>
+                                <td colspan="5" class="px-6 py-10 text-center text-sm text-slate-400 italic">Belum ada data buku.</td>
                             </tr>
                         @endforelse
                     </tbody>

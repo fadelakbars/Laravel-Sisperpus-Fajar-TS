@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreBukuRequest extends FormRequest
 {
@@ -25,6 +26,7 @@ class StoreBukuRequest extends FormRequest
             'tahun_terbit' => ['required', 'integer', 'digits:4', 'min:1900', 'max:'.(int) now()->format('Y')],
             'stok' => ['required', 'integer', 'min:0'],
             'lokasi_rak' => ['required', 'string', 'max:255'],
+            'gambar_sampul' => ['nullable', File::image()->max('2mb')],
         ];
     }
 }

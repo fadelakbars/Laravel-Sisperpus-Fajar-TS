@@ -6,7 +6,7 @@
         </div>
 
         <x-ui.card>
-            <form action="{{ route('admin.buku.store') }}" method="POST">
+            <form action="{{ route('admin.buku.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('admin.buku._form')
             </form>

@@ -9,6 +9,7 @@ use App\Models\Buku;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class BukuController extends Controller
@@ -44,7 +45,13 @@ class BukuController extends Controller
 
     public function store(StoreBukuRequest $request): RedirectResponse
     {
-        Buku::query()->create($request->validated());
+        $dataTervalidasi = $request->validated();
+
+        if ($request->hasFile('gambar_sampul')) {
+            $dataTervalidasi['gambar_sampul'] = $request->file('gambar_sampul')->store('gambar-sampul-buku', 'public');
+        }
+
+        Buku::query()->create($dataTervalidasi);
 
         return to_route('admin.buku.index')
             ->with('status', 'Data buku berhasil ditambahkan.');
@@ -57,7 +64,17 @@ class BukuController extends Controller
 
     public function update(UpdateBukuRequest $request, Buku $buku): RedirectResponse
     {
-        $buku->update($request->validated());
+        $dataTervalidasi = $request->validated();
+
+        if ($request->hasFile('gambar_sampul')) {
+            if ($buku->gambar_sampul !== null) {
+                Storage::disk('public')->delete($buku->gambar_sampul);
+            }
+
+            $dataTervalidasi['gambar_sampul'] = $request->file('gambar_sampul')->store('gambar-sampul-buku', 'public');
+        }
+
+        $buku->update($dataTervalidasi);
 
         return to_route('admin.buku.index')
             ->with('status', 'Data buku berhasil diperbarui.');
@@ -65,6 +82,10 @@ class BukuController extends Controller
 
     public function destroy(Buku $buku): RedirectResponse
     {
+        if ($buku->gambar_sampul !== null) {
+            Storage::disk('public')->delete($buku->gambar_sampul);
+        }
+
         $buku->delete();
 
         return to_route('admin.buku.index')

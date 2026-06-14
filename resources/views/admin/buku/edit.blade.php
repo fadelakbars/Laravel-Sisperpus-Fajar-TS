@@ -6,7 +6,7 @@
         </div>
 
         <x-ui.card>
-            <form action="{{ route('admin.buku.update', $buku) }}" method="POST">
+            <form action="{{ route('admin.buku.update', $buku) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.buku._form')

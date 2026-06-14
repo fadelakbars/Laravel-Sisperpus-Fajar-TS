@@ -1,77 +1,85 @@
-<x-layouts.auth :title="'Dashboard Anggota Libris'">
-    <div class="w-full space-y-8">
-        <div class="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/8 p-8 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
-            <div class="space-y-2">
-                <p class="text-sm uppercase tracking-[0.22em] text-amber-200">Dashboard Anggota</p>
-                <h1 class="text-4xl text-stone-50">Halo, {{ auth()->user()->name }}</h1>
-                <p class="max-w-2xl text-stone-300">
-                    Telusuri katalog buku perpustakaan, cek ketersediaan, dan pantau riwayat peminjaman pribadi Anda dalam satu halaman.
-                </p>
-            </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
-                    Logout
-                </button>
-            </form>
+<x-layouts.app :title="'Dashboard Anggota - Libris'">
+    <div class="space-y-8">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Halo, {{ auth()->user()->name }}</h1>
+            <p class="mt-2 text-sm text-slate-500">Temukan buku favorit Anda dan pantau riwayat peminjaman.</p>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-3">
-            <div class="rounded-3xl border border-white/10 bg-stone-900/70 p-6">
-                <p class="text-sm uppercase tracking-[0.18em] text-stone-400">Peran</p>
-                <p class="mt-3 text-3xl text-stone-50">Anggota</p>
-            </div>
-            <div class="rounded-3xl border border-white/10 bg-stone-900/70 p-6">
-                <p class="text-sm uppercase tracking-[0.18em] text-stone-400">NIM</p>
-                <p class="mt-3 text-xl text-stone-50">{{ auth()->user()->nim }}</p>
-            </div>
-            <div class="rounded-3xl border border-white/10 bg-stone-900/70 p-6">
-                <p class="text-sm uppercase tracking-[0.18em] text-stone-400">Riwayat Anda</p>
-                <p class="mt-3 text-xl text-stone-50">{{ $riwayatPeminjaman->total() }} transaksi</p>
-            </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <x-ui.card padding="p-5">
+                <div class="flex items-center gap-x-4">
+                    <div class="rounded-lg bg-indigo-50 p-2 text-indigo-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500">NIM</p>
+                        <p class="text-lg font-bold text-slate-900">{{ auth()->user()->nim }}</p>
+                    </div>
+                </div>
+            </x-ui.card>
+
+            <x-ui.card padding="p-5">
+                <div class="flex items-center gap-x-4">
+                    <div class="rounded-lg bg-emerald-50 p-2 text-emerald-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500">Buku Dipinjam</p>
+                        <p class="text-2xl font-bold text-slate-900">{{ $riwayatPeminjaman->where('status_peminjaman.value', 'dipinjam')->count() }}</p>
+                    </div>
+                </div>
+            </x-ui.card>
+
+            <x-ui.card padding="p-5">
+                <div class="flex items-center gap-x-4">
+                    <div class="rounded-lg bg-rose-50 p-2 text-rose-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500">Total Denda</p>
+                        <p class="text-2xl font-bold text-slate-900">Rp{{ number_format((float) $riwayatPeminjaman->sum('jumlah_denda'), 0, ',', '.') }}</p>
+                    </div>
+                </div>
+            </x-ui.card>
         </div>
 
-        <section class="space-y-5 rounded-[2rem] border border-white/10 bg-stone-900/70 p-8">
-            <div class="space-y-2">
-                <p class="text-sm uppercase tracking-[0.22em] text-amber-200">Katalog Buku</p>
-                <h2 class="text-3xl text-stone-50">Cari Buku Tersedia</h2>
+        <section class="space-y-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
+                <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex w-full max-w-sm gap-2">
+                    <x-ui.input 
+                        name="cari" 
+                        :value="$kataKunci" 
+                        placeholder="Cari buku..." 
+                        class="py-2"
+                    />
+                    <x-ui.button type="submit">Cari</x-ui.button>
+                </form>
             </div>
 
-            <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex flex-col gap-4 lg:flex-row">
-                <input
-                    type="text"
-                    name="cari"
-                    value="{{ $kataKunci }}"
-                    placeholder="Cari judul, penulis, penerbit, atau ISBN"
-                    class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60"
-                >
-                <button class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
-                    Cari
-                </button>
-            </form>
-
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 @forelse ($daftarBuku as $buku)
-                    <article class="rounded-3xl border border-white/10 bg-black/20 p-5">
-                        <p class="text-xs uppercase tracking-[0.2em] text-stone-500">{{ $buku->isbn }}</p>
-                        <h3 class="mt-3 text-xl text-stone-50">{{ $buku->judul }}</h3>
-                        <p class="mt-2 text-sm text-stone-300">{{ $buku->penulis }}</p>
-                        <p class="text-sm text-stone-400">{{ $buku->penerbit }} · {{ $buku->tahun_terbit }}</p>
-                        <div class="mt-5 flex items-center justify-between">
-                            <span class="rounded-full px-3 py-1 text-xs uppercase tracking-[0.16em]
-                                @class([
-                                    'bg-emerald-300/20 text-emerald-200' => $buku->stok > 0,
-                                    'bg-rose-300/20 text-rose-200' => $buku->stok === 0,
-                                ])">
+                    <x-ui.card padding="p-5" class="group transition-all hover:border-indigo-200 hover:shadow-md">
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
+                        <h3 class="mt-2 text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
+                        <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>
+                        
+                        <div class="mt-6 flex items-center justify-between">
+                            <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'">
                                 {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
-                            </span>
-                            <span class="text-sm text-stone-300">Stok: {{ $buku->stok }}</span>
+                            </x-ui.badge>
+                            <span class="text-xs text-slate-400">Stok: {{ $buku->stok }}</span>
                         </div>
-                        <p class="mt-4 text-sm text-stone-400">Lokasi: {{ $buku->lokasi_rak }}</p>
-                    </article>
+                    </x-ui.card>
                 @empty
-                    <div class="rounded-3xl border border-white/10 bg-black/20 p-5 text-stone-400 md:col-span-2 xl:col-span-4">
-                        Tidak ada buku yang cocok dengan pencarian Anda.
+                    <div class="col-span-full py-20 text-center">
+                        <p class="text-slate-400">Tidak ada buku yang ditemukan.</p>
                     </div>
                 @endforelse
             </div>
@@ -81,62 +89,53 @@
             </div>
         </section>
 
-        <section class="space-y-5 rounded-[2rem] border border-white/10 bg-stone-900/70 p-8">
-            <div class="space-y-2">
-                <p class="text-sm uppercase tracking-[0.22em] text-amber-200">Riwayat Peminjaman</p>
-                <h2 class="text-3xl text-stone-50">Transaksi Pribadi</h2>
-            </div>
-
-            <div class="overflow-hidden rounded-[1.5rem] border border-white/10">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-white/10">
-                        <thead class="bg-white/5">
-                            <tr class="text-left text-xs uppercase tracking-[0.18em] text-stone-400">
-                                <th class="px-6 py-4">Buku</th>
-                                <th class="px-6 py-4">Pinjam</th>
-                                <th class="px-6 py-4">Jatuh Tempo</th>
-                                <th class="px-6 py-4">Kembali</th>
-                                <th class="px-6 py-4">Status</th>
-                                <th class="px-6 py-4">Denda</th>
+        <x-ui.card title="Riwayat Peminjaman Pribadi" description="Daftar buku yang pernah dan sedang Anda pinjam." padding="p-0">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Buku</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Pinjam / Tempo</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Denda</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+                        @forelse ($riwayatPeminjaman as $peminjaman)
+                            <tr>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <div class="text-sm font-semibold text-slate-900">{{ $peminjaman->buku->judul }}</div>
+                                    <div class="text-xs text-slate-500">{{ $peminjaman->buku->isbn }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <div class="text-sm text-slate-900">{{ $peminjaman->tanggal_pinjam?->format('d M Y') }}</div>
+                                    <div class="text-xs text-rose-500 font-medium italic">{{ $peminjaman->tanggal_jatuh_tempo?->format('d M Y') }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <x-ui.badge :variant="match($peminjaman->status_peminjaman->value) {
+                                        'dipinjam' => 'warning',
+                                        'terlambat' => 'danger',
+                                        'dikembalikan' => 'success',
+                                        default => 'neutral'
+                                    }">
+                                        {{ $peminjaman->status_peminjaman->label() }}
+                                    </x-ui.badge>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900">
+                                    Rp{{ number_format((float) $peminjaman->jumlah_denda, 0, ',', '.') }}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/10 text-sm text-stone-200">
-                            @forelse ($riwayatPeminjaman as $peminjaman)
-                                <tr class="align-top">
-                                    <td class="px-6 py-4">
-                                        <div class="font-medium text-stone-50">{{ $peminjaman->buku->judul }}</div>
-                                        <div class="text-stone-400">{{ $peminjaman->buku->isbn }}</div>
-                                    </td>
-                                    <td class="px-6 py-4">{{ $peminjaman->tanggal_pinjam?->format('d M Y') }}</td>
-                                    <td class="px-6 py-4">{{ $peminjaman->tanggal_jatuh_tempo?->format('d M Y') }}</td>
-                                    <td class="px-6 py-4">{{ $peminjaman->tanggal_kembali?->format('d M Y') ?? '-' }}</td>
-                                    <td class="px-6 py-4">
-                                        <span class="rounded-full px-3 py-1 text-xs uppercase tracking-[0.16em]
-                                            @class([
-                                                'bg-amber-300/20 text-amber-200' => $peminjaman->status_peminjaman->value === 'dipinjam',
-                                                'bg-rose-300/20 text-rose-200' => $peminjaman->status_peminjaman->value === 'terlambat',
-                                                'bg-emerald-300/20 text-emerald-200' => $peminjaman->status_peminjaman->value === 'dikembalikan',
-                                            ])">
-                                            {{ $peminjaman->status_peminjaman->label() }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">Rp{{ number_format((float) $peminjaman->jumlah_denda, 0, ',', '.') }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-8 text-center text-stone-400">
-                                        Anda belum memiliki riwayat peminjaman.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-400 italic">Belum ada riwayat peminjaman.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-
-            <div>
+            <div class="border-t border-slate-200 px-6 py-4">
                 {{ $riwayatPeminjaman->links() }}
             </div>
-        </section>
+        </x-ui.card>
     </div>
-</x-layouts.auth>
+</x-layouts.app>

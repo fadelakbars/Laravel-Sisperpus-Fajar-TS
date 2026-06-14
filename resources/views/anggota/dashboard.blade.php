@@ -50,7 +50,7 @@
         </div>
 
         <section class="space-y-6">
-            <div class="grid gap-4 xl:grid-cols-4">
+            <div class="grid gap-6 xl:grid-cols-4">
                 <div class="xl:col-span-3">
                     <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
                     <p class="mt-2 max-w-2xl text-sm text-slate-500">

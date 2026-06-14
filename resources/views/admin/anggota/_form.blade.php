@@ -1,49 +1,54 @@
-@csrf
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <x-ui.input 
+        label="Nama Lengkap" 
+        name="name" 
+        :value="$anggota->name ?? null" 
+        placeholder="Nama mahasiswa" 
+        required 
+    />
 
-<div class="grid gap-6 md:grid-cols-2">
-    <div class="space-y-2">
-        <label for="name" class="text-sm text-stone-300">Nama</label>
-        <input id="name" name="name" type="text" value="{{ old('name', $anggota->name ?? '') }}" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60">
-        @error('name')
-            <p class="text-sm text-rose-300">{{ $message }}</p>
-        @enderror
-    </div>
+    <x-ui.input 
+        label="NIM" 
+        name="nim" 
+        :value="$anggota->nim ?? null" 
+        placeholder="Nomor Induk Mahasiswa" 
+    />
 
-    <div class="space-y-2">
-        <label for="email" class="text-sm text-stone-300">Email</label>
-        <input id="email" name="email" type="email" value="{{ old('email', $anggota->email ?? '') }}" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60">
-        @error('email')
-            <p class="text-sm text-rose-300">{{ $message }}</p>
-        @enderror
-    </div>
+    <x-ui.input 
+        label="Alamat Email" 
+        name="email" 
+        type="email" 
+        :value="$anggota->email ?? null" 
+        placeholder="email@mahasiswa.ac.id" 
+        required 
+    />
 
-    <div class="space-y-2">
-        <label for="nim" class="text-sm text-stone-300">NIM</label>
-        <input id="nim" name="nim" type="text" value="{{ old('nim', $anggota->nim ?? '') }}" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60">
-        @error('nim')
-            <p class="text-sm text-rose-300">{{ $message }}</p>
-        @enderror
-    </div>
+    <x-ui.input 
+        label="Kata Sandi" 
+        name="password" 
+        type="password" 
+        placeholder="{{ isset($anggota) ? 'Kosongkan jika tidak ingin diubah' : 'Masukkan kata sandi' }}" 
+        :required="!isset($anggota)" 
+    />
 
-    <div class="space-y-2">
-        <label for="password" class="text-sm text-stone-300">Kata Sandi</label>
-        <input id="password" name="password" type="password" {{ $mode === 'create' ? 'required' : '' }} class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60">
-        @error('password')
-            <p class="text-sm text-rose-300">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <div class="space-y-2 md:col-span-2">
-        <label for="password_confirmation" class="text-sm text-stone-300">Konfirmasi Kata Sandi</label>
-        <input id="password_confirmation" name="password_confirmation" type="password" {{ $mode === 'create' ? 'required' : '' }} class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60">
+    <div class="space-y-1.5">
+        <label for="peran" class="text-sm font-medium text-slate-700">Peran Pengguna</label>
+        <select 
+            name="peran" 
+            id="peran" 
+            class="block w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-900 shadow-sm transition duration-200 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        >
+            <option value="anggota" @selected(($anggota->peran ?? 'anggota') === 'anggota')>Anggota</option>
+            <option value="admin" @selected(($anggota->peran ?? '') === 'admin')>Admin</option>
+        </select>
     </div>
 </div>
 
-<div class="mt-8 flex flex-wrap gap-3">
-    <button class="rounded-2xl bg-amber-300 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-stone-950 transition hover:bg-amber-200">
-        {{ $tombol }}
-    </button>
-    <a href="{{ route('admin.anggota.index') }}" class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
+<div class="mt-8 flex items-center justify-end gap-3">
+    <x-ui.button type="link" href="{{ route('admin.anggota.index') }}" variant="secondary">
         Batal
-    </a>
+    </x-ui.button>
+    <x-ui.button type="submit">
+        {{ isset($anggota) ? 'Simpan Perubahan' : 'Tambah Anggota' }}
+    </x-ui.button>
 </div>

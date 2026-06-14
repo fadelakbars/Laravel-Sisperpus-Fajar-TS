@@ -1,72 +1,73 @@
-<x-layouts.auth :title="'Manajemen Anggota Libris'">
-    <div class="w-full space-y-8">
-        <div class="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/8 p-8 backdrop-blur-xl lg:flex-row lg:items-end lg:justify-between">
-            <div class="space-y-2">
-                <p class="text-sm uppercase tracking-[0.22em] text-amber-200">Admin Anggota</p>
-                <h1 class="text-4xl text-stone-50">Manajemen Anggota</h1>
-                <p class="max-w-2xl text-stone-300">
-                    Kelola akun anggota perpustakaan untuk kebutuhan katalog, peminjaman, dan riwayat sirkulasi.
-                </p>
+<x-layouts.app :title="'Manajemen Anggota - Libris'">
+    <div class="space-y-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Data Anggota</h1>
+                <p class="mt-1 text-sm text-slate-500">Kelola informasi mahasiswa dan akun akses perpustakaan.</p>
             </div>
-            <div class="flex flex-wrap gap-3">
-                <a href="{{ route('admin.dashboard') }}" class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
-                    Dashboard
-                </a>
-                <a href="{{ route('admin.anggota.create') }}" class="rounded-2xl bg-amber-300 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-stone-950 transition hover:bg-amber-200">
+            <div>
+                <x-ui.button type="link" href="{{ route('admin.anggota.create') }}">
+                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
                     Tambah Anggota
-                </a>
+                </x-ui.button>
             </div>
         </div>
 
         @if (session('status'))
-            <div class="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 px-5 py-4 text-sm text-emerald-100">
+            <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
                 {{ session('status') }}
             </div>
         @endif
 
-        <div class="rounded-[2rem] border border-white/10 bg-stone-900/70 p-6">
-            <form method="GET" action="{{ route('admin.anggota.index') }}" class="flex flex-col gap-4 lg:flex-row">
-                <input
-                    type="text"
-                    name="cari"
-                    value="{{ $kataKunci }}"
-                    placeholder="Cari nama, email, atau NIM"
-                    class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none placeholder:text-stone-500 focus:border-amber-300/60"
-                >
-                <button class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
-                    Cari
-                </button>
-            </form>
-        </div>
-
-        <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-stone-900/70">
+        <x-ui.card padding="p-0">
+            <div class="border-b border-slate-100 p-4">
+                <form method="GET" action="{{ route('admin.anggota.index') }}" class="flex max-w-sm gap-2">
+                    <x-ui.input 
+                        name="cari" 
+                        :value="$kataKunci" 
+                        placeholder="Cari nama, NIM, atau email..." 
+                        class="py-1.5"
+                    />
+                    <x-ui.button type="submit" variant="secondary" class="py-1.5">Cari</x-ui.button>
+                </form>
+            </div>
+            
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-white/10">
-                    <thead class="bg-white/5">
-                        <tr class="text-left text-xs uppercase tracking-[0.18em] text-stone-400">
-                            <th class="px-6 py-4">Nama</th>
-                            <th class="px-6 py-4">Email</th>
-                            <th class="px-6 py-4">NIM</th>
-                            <th class="px-6 py-4">Terdaftar</th>
-                            <th class="px-6 py-4">Aksi</th>
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Anggota</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Peran</th>
+                            <th class="px-6 py-3 text-right text-xs font-bold uppercase tracking-wider text-slate-500">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-white/10 text-sm text-stone-200">
+                    <tbody class="divide-y divide-slate-200 bg-white">
                         @forelse ($daftarAnggota as $anggota)
-                            <tr class="align-top">
-                                <td class="px-6 py-4 font-medium text-stone-50">{{ $anggota->name }}</td>
-                                <td class="px-6 py-4">{{ $anggota->email }}</td>
-                                <td class="px-6 py-4">{{ $anggota->nim }}</td>
-                                <td class="px-6 py-4">{{ $anggota->created_at?->format('d M Y') }}</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex flex-wrap gap-3">
-                                        <a href="{{ route('admin.anggota.edit', $anggota) }}" class="text-amber-200 transition hover:text-amber-100">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-semibold text-slate-900">{{ $anggota->name }}</div>
+                                    <div class="text-xs text-slate-500">NIM: {{ $anggota->nim ?? '-' }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-slate-600">{{ $anggota->email }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <x-ui.badge :variant="$anggota->peran === 'admin' ? 'primary' : 'neutral'">
+                                        {{ ucfirst($anggota->peran) }}
+                                    </x-ui.badge>
+                                </td>
+                                <td class="px-6 py-4 text-right whitespace-nowrap">
+                                    <div class="flex justify-end gap-3">
+                                        <a href="{{ route('admin.anggota.edit', $anggota) }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition">
                                             Edit
                                         </a>
                                         <form method="POST" action="{{ route('admin.anggota.destroy', $anggota) }}" onsubmit="return confirm('Hapus anggota ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="text-rose-300 transition hover:text-rose-200">
+                                            <button class="text-sm font-semibold text-rose-600 hover:text-rose-900 transition">
                                                 Hapus
                                             </button>
                                         </form>
@@ -75,18 +76,15 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-8 text-center text-stone-400">
-                                    Belum ada data anggota.
-                                </td>
+                                <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-400 italic">Belum ada data anggota.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-
-            <div class="border-t border-white/10 px-6 py-4">
+            <div class="border-t border-slate-200 px-6 py-4">
                 {{ $daftarAnggota->links() }}
             </div>
-        </div>
+        </x-ui.card>
     </div>
-</x-layouts.auth>
+</x-layouts.app>

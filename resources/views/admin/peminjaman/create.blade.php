@@ -1,72 +1,85 @@
-<x-layouts.auth :title="'Catat Peminjaman Libris'">
-    <div class="w-full space-y-8">
-        <div class="space-y-2 rounded-[2rem] border border-white/10 bg-white/8 p-8 backdrop-blur-xl">
-            <p class="text-sm uppercase tracking-[0.22em] text-amber-200">Admin Peminjaman</p>
-            <h1 class="text-4xl text-stone-50">Catat Peminjaman Baru</h1>
-            <p class="max-w-2xl text-stone-300">
-                Pilih anggota dan buku yang tersedia, lalu tetapkan tanggal pinjam dan jatuh tempo pengembalian.
-            </p>
+<x-layouts.app :title="'Catat Peminjaman - Libris'">
+    <div class="max-w-3xl mx-auto space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Peminjaman Baru</h1>
+            <p class="mt-1 text-sm text-slate-500">Pilih buku dan anggota untuk memulai transaksi peminjaman.</p>
         </div>
 
-        <form method="POST" action="{{ route('admin.peminjaman.store') }}" class="rounded-[2rem] border border-white/10 bg-stone-900/70 p-8">
-            @csrf
+        @if ($errors->any())
+            <div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <div class="grid gap-6 md:grid-cols-2">
-                <div class="space-y-2">
-                    <label for="anggota_id" class="text-sm text-stone-300">Anggota</label>
-                    <select id="anggota_id" name="anggota_id" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none focus:border-amber-300/60">
-                        <option value="">Pilih anggota</option>
+        <x-ui.card>
+            <form action="{{ route('admin.peminjaman.store') }}" method="POST" class="space-y-6">
+                @csrf
+
+                <div class="space-y-1.5">
+                    <label for="anggota_id" class="text-sm font-medium text-slate-700">Pilih Anggota</label>
+                    <select 
+                        name="anggota_id" 
+                        id="anggota_id" 
+                        required
+                        class="block w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-900 shadow-sm transition duration-200 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                        <option value="">-- Pilih Anggota --</option>
                         @foreach ($daftarAnggota as $anggota)
-                            <option value="{{ $anggota->id }}" @selected((string) old('anggota_id') === (string) $anggota->id)>
-                                {{ $anggota->name }} - {{ $anggota->nim }}
+                            <option value="{{ $anggota->id }}" @selected(old('anggota_id') == $anggota->id)>
+                                {{ $anggota->name }} (NIM: {{ $anggota->nim ?? '-' }})
                             </option>
                         @endforeach
                     </select>
-                    @error('anggota_id')
-                        <p class="text-sm text-rose-300">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                <div class="space-y-2">
-                    <label for="buku_id" class="text-sm text-stone-300">Buku</label>
-                    <select id="buku_id" name="buku_id" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none focus:border-amber-300/60">
-                        <option value="">Pilih buku tersedia</option>
+                <div class="space-y-1.5">
+                    <label for="buku_id" class="text-sm font-medium text-slate-700">Pilih Buku</label>
+                    <select 
+                        name="buku_id" 
+                        id="buku_id" 
+                        required
+                        class="block w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-900 shadow-sm transition duration-200 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                        <option value="">-- Pilih Buku --</option>
                         @foreach ($daftarBuku as $buku)
-                            <option value="{{ $buku->id }}" @selected((string) old('buku_id') === (string) $buku->id)>
-                                {{ $buku->judul }} - stok {{ $buku->stok }}
+                            <option value="{{ $buku->id }}" @selected(old('buku_id') == $buku->id) @disabled($buku->stok <= 0)>
+                                {{ $buku->judul }} (Stok: {{ $buku->stok }})
                             </option>
                         @endforeach
                     </select>
-                    @error('buku_id')
-                        <p class="text-sm text-rose-300">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                <div class="space-y-2">
-                    <label for="tanggal_pinjam" class="text-sm text-stone-300">Tanggal Pinjam</label>
-                    <input id="tanggal_pinjam" name="tanggal_pinjam" type="date" value="{{ old('tanggal_pinjam', now()->toDateString()) }}" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none focus:border-amber-300/60">
-                    @error('tanggal_pinjam')
-                        <p class="text-sm text-rose-300">{{ $message }}</p>
-                    @enderror
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <x-ui.input 
+                        label="Tanggal Pinjam" 
+                        name="tanggal_pinjam" 
+                        type="date" 
+                        :value="old('tanggal_pinjam', date('Y-m-d'))" 
+                        required 
+                    />
+
+                    <x-ui.input 
+                        label="Tanggal Jatuh Tempo" 
+                        name="tanggal_jatuh_tempo" 
+                        type="date" 
+                        :value="old('tanggal_jatuh_tempo', date('Y-m-d', strtotime('+7 days')))" 
+                        required 
+                    />
                 </div>
 
-                <div class="space-y-2">
-                    <label for="tanggal_jatuh_tempo" class="text-sm text-stone-300">Tanggal Jatuh Tempo</label>
-                    <input id="tanggal_jatuh_tempo" name="tanggal_jatuh_tempo" type="date" value="{{ old('tanggal_jatuh_tempo', now()->addDays(7)->toDateString()) }}" required class="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-stone-50 outline-none focus:border-amber-300/60">
-                    @error('tanggal_jatuh_tempo')
-                        <p class="text-sm text-rose-300">{{ $message }}</p>
-                    @enderror
+                <div class="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-6">
+                    <x-ui.button type="link" href="{{ route('admin.peminjaman.index') }}" variant="secondary">
+                        Batal
+                    </x-ui.button>
+                    <x-ui.button type="submit">
+                        Simpan Transaksi
+                    </x-ui.button>
                 </div>
-            </div>
-
-            <div class="mt-8 flex flex-wrap gap-3">
-                <button class="rounded-2xl bg-amber-300 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-stone-950 transition hover:bg-amber-200">
-                    Simpan Peminjaman
-                </button>
-                <a href="{{ route('admin.peminjaman.index') }}" class="rounded-2xl border border-white/15 px-5 py-3 text-sm uppercase tracking-[0.18em] text-stone-100 transition hover:border-amber-300/50 hover:text-amber-200">
-                    Batal
-                </a>
-            </div>
-        </form>
+            </form>
+        </x-ui.card>
     </div>
-</x-layouts.auth>
+</x-layouts.app>

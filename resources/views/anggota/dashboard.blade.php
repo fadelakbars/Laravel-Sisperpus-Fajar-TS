@@ -2,7 +2,7 @@
     <div class="space-y-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Halo, {{ auth()->user()->name }}</h1>
-            <p class="mt-2 text-sm text-slate-500">Temukan buku favorit Anda dan pantau riwayat peminjaman.</p>
+            <p class="mt-2 text-sm text-slate-500">Pantau aktivitas peminjaman dan denda Anda di sini.</p>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -48,65 +48,6 @@
                 </div>
             </x-ui.card>
         </div>
-
-        <section class="space-y-6">
-            <div class="grid gap-6 xl:grid-cols-4 xl:items-end">
-                <div class="xl:col-span-3">
-                    <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
-                    <p class="mt-2 max-w-2xl text-sm text-slate-500">
-                        Jelajahi koleksi buku yang tersedia dan temukan referensi yang paling relevan untuk kebutuhan Anda.
-                    </p>
-                </div>
-
-                <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex w-full gap-2 xl:max-w-sm xl:justify-self-end">
-                    <x-ui.input
-                        name="cari"
-                        :value="$kataKunci"
-                        placeholder="Cari buku..."
-                        class="py-2"
-                    />
-                    <x-ui.button type="submit">Cari</x-ui.button>
-                </form>
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-                @forelse ($daftarBuku as $buku)
-                    <x-ui.card padding="p-0" class="group h-full transition-all hover:border-indigo-200 hover:shadow-md">
-                        <div class="flex aspect-[3/4] items-center justify-center overflow-hidden bg-slate-100">
-                            @if($buku->urlGambarSampul())
-                                <img src="{{ $buku->urlGambarSampul() }}" alt="Sampul {{ $buku->judul }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]">
-                            @else
-                                <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-white px-6 text-center">
-                                    <span class="text-xs font-bold uppercase tracking-[0.35em] text-slate-400">Tidak Ada Sampul</span>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="flex h-[168px] flex-col justify-between p-4">
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
-                                <h3 class="mt-2 text-lg font-bold leading-tight text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
-                                <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>
-                            </div>
-
-                            <div class="mt-5 flex items-center justify-between">
-                                <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'">
-                                    {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
-                                </x-ui.badge>
-                                <span class="text-xs text-slate-400">Stok: {{ $buku->stok }}</span>
-                            </div>
-                        </div>
-                    </x-ui.card>
-                @empty
-                    <div class="col-span-full py-20 text-center">
-                        <p class="text-slate-400">Tidak ada buku yang ditemukan.</p>
-                    </div>
-                @endforelse
-            </div>
-
-            <div>
-                {{ $daftarBuku->links() }}
-            </div>
-        </section>
 
         <x-ui.card title="Riwayat Peminjaman Pribadi" description="Daftar buku yang pernah dan sedang Anda pinjam." padding="p-0">
             <div class="overflow-x-auto">
@@ -156,5 +97,14 @@
                 {{ $riwayatPeminjaman->links() }}
             </div>
         </x-ui.card>
+
+        <div class="flex justify-center">
+            <x-ui.button type="link" href="{{ route('anggota.buku.index') }}" variant="primary" class="gap-2">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                Buka Katalog & Cari Buku
+            </x-ui.button>
+        </div>
     </div>
 </x-layouts.app>

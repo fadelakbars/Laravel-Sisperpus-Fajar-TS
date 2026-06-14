@@ -43,7 +43,8 @@ Route::middleware('auth')->group(function () {
                 ->name('peminjaman.kembalikan');
         });
 
-    Route::get('/anggota/dashboard', [AnggotaDashboardController::class, 'index'])
-        ->middleware('anggota')
-        ->name('anggota.dashboard');
+    Route::middleware('anggota')->group(function () {
+        Route::get('/anggota/dashboard', [AnggotaDashboardController::class, 'index'])->name('anggota.dashboard');
+        Route::get('/anggota/buku', [\App\Http\Controllers\Anggota\BukuController::class, 'index'])->name('anggota.buku.index');
+    });
 });

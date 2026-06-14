@@ -50,10 +50,11 @@ class PeminjamanController extends Controller
 
     public function store(StorePeminjamanRequest $request, BuatPeminjaman $buatPeminjaman): RedirectResponse
     {
-        $buatPeminjaman($request->validated());
+        $hasil = $buatPeminjaman($request->validated());
+        $jumlah = count($hasil);
 
         return to_route('admin.peminjaman.index')
-            ->with('status', 'Transaksi peminjaman berhasil dibuat.');
+            ->with('status', "Berhasil mencatat {$jumlah} peminjaman buku.");
     }
 
     public function kembalikan(

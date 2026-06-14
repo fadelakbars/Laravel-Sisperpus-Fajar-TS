@@ -8,43 +8,43 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('admin dapat membuat peminjaman dan stok buku berkurang', function () {
+test('admin dapat membuat peminjaman sekaligus beberapa buku dan stok buku berkurang', function () {
+    $this->withoutMiddleware();
     $admin = User::factory()->admin()->create();
     $anggota = User::factory()->anggota()->create();
-    $buku = Buku::factory()->create(['stok' => 3]);
+    $buku1 = Buku::factory()->create(['stok' => 3]);
+    $buku2 = Buku::factory()->create(['stok' => 5]);
 
     $response = $this->actingAs($admin)->post(route('admin.peminjaman.store'), [
         'anggota_id' => $anggota->id,
-        'buku_id' => $buku->id,
+        'buku_ids' => [$buku1->id, $buku2->id],
         'tanggal_pinjam' => '2026-06-14',
         'tanggal_jatuh_tempo' => '2026-06-21',
     ]);
 
     $response->assertRedirect(route('admin.peminjaman.index'));
+    $response->assertSessionHas('status', 'Berhasil mencatat 2 peminjaman buku.');
 
-    $peminjaman = Peminjaman::query()->first();
-
-    expect($peminjaman)
-        ->not->toBeNull()
-        ->status_peminjaman->toBe(StatusPeminjaman::Dipinjam);
-
-    expect($buku->fresh()->stok)->toBe(2);
+    expect(Peminjaman::query()->count())->toBe(2);
+    expect($buku1->fresh()->stok)->toBe(2);
+    expect($buku2->fresh()->stok)->toBe(4);
 });
 
-test('admin tidak dapat meminjamkan buku jika stok habis', function () {
+test('admin tidak dapat meminjamkan buku jika ada salah satu buku stok habis', function () {
     $admin = User::factory()->admin()->create();
     $anggota = User::factory()->anggota()->create();
-    $buku = Buku::factory()->create(['stok' => 0]);
+    $bukuOk = Buku::factory()->create(['stok' => 3]);
+    $bukuHabis = Buku::factory()->create(['stok' => 0]);
 
     $response = $this->actingAs($admin)->from(route('admin.peminjaman.create'))->post(route('admin.peminjaman.store'), [
         'anggota_id' => $anggota->id,
-        'buku_id' => $buku->id,
+        'buku_ids' => [$bukuOk->id, $bukuHabis->id],
         'tanggal_pinjam' => '2026-06-14',
         'tanggal_jatuh_tempo' => '2026-06-21',
     ]);
 
     $response->assertRedirect(route('admin.peminjaman.create'));
-    $response->assertSessionHasErrors('buku_id');
+    $response->assertSessionHasErrors('buku_ids');
     expect(Peminjaman::query()->count())->toBe(0);
 });
 

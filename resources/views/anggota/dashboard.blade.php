@@ -50,23 +50,34 @@
         </div>
 
         <section class="space-y-6">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
-                <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex w-full max-w-sm gap-2">
-                    <x-ui.input 
-                        name="cari" 
-                        :value="$kataKunci" 
-                        placeholder="Cari buku..." 
-                        class="py-2"
-                    />
-                    <x-ui.button type="submit">Cari</x-ui.button>
-                </form>
+            <div class="grid gap-4 xl:grid-cols-4">
+                <div class="xl:col-span-3">
+                    <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
+                    <p class="mt-2 max-w-2xl text-sm text-slate-500">
+                        Jelajahi koleksi buku yang tersedia dan temukan referensi yang paling relevan untuk kebutuhan Anda.
+                    </p>
+                </div>
+
+                <x-ui.card padding="p-4" class="h-full">
+                    <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex h-full flex-col justify-end gap-3">
+                        <x-ui.input
+                            label="Cari Buku"
+                            name="cari"
+                            :value="$kataKunci"
+                            placeholder="Judul, penulis, ISBN..."
+                            class="py-2"
+                        />
+                        <x-ui.button type="submit" class="w-full">
+                            Cari
+                        </x-ui.button>
+                    </form>
+                </x-ui.card>
             </div>
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 @forelse ($daftarBuku as $buku)
-                    <x-ui.card padding="p-5" class="group transition-all hover:border-indigo-200 hover:shadow-md">
-                        <div class="mb-4 flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl bg-slate-100">
+                    <x-ui.card padding="p-0" class="group h-full transition-all hover:border-indigo-200 hover:shadow-md">
+                        <div class="flex aspect-[3/4] items-center justify-center overflow-hidden bg-slate-100">
                             @if($buku->urlGambarSampul())
                                 <img src="{{ $buku->urlGambarSampul() }}" alt="Sampul {{ $buku->judul }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]">
                             @else
@@ -75,15 +86,19 @@
                                 </div>
                             @endif
                         </div>
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
-                        <h3 class="mt-2 text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
-                        <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>
-                        
-                        <div class="mt-6 flex items-center justify-between">
-                            <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'">
-                                {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
-                            </x-ui.badge>
-                            <span class="text-xs text-slate-400">Stok: {{ $buku->stok }}</span>
+                        <div class="flex h-[168px] flex-col justify-between p-4">
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
+                                <h3 class="mt-2 text-lg font-bold leading-tight text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
+                                <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>
+                            </div>
+
+                            <div class="mt-5 flex items-center justify-between">
+                                <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'">
+                                    {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
+                                </x-ui.badge>
+                                <span class="text-xs text-slate-400">Stok: {{ $buku->stok }}</span>
+                            </div>
                         </div>
                     </x-ui.card>
                 @empty

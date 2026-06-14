@@ -46,5 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('anggota')->group(function () {
         Route::get('/anggota/dashboard', [AnggotaDashboardController::class, 'index'])->name('anggota.dashboard');
         Route::get('/anggota/buku', [\App\Http\Controllers\Anggota\BukuController::class, 'index'])->name('anggota.buku.index');
+        Route::get('/anggota/surat-bebas', [AnggotaDashboardController::class, 'cetakSuratBebas'])->name('anggota.surat-bebas');
     });
 });

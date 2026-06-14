@@ -21,4 +21,16 @@ class DashboardController extends Controller
             'riwayatPeminjaman' => $riwayatPeminjaman,
         ]);
     }
+
+    public function cetakSuratBebas(Request $request): View
+    {
+        if (!$request->user()->bisaDownloadSuratBebas()) {
+            abort(403, 'Anda belum memenuhi syarat untuk mendapatkan Surat Bebas Perpustakaan.');
+        }
+
+        return view('anggota.surat-bebas', [
+            'user' => $request->user(),
+            'tanggal' => now(),
+        ]);
+    }
 }

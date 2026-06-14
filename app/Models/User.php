@@ -40,6 +40,26 @@ class User extends Authenticatable
         return $this->hasMany(Peminjaman::class, 'anggota_id');
     }
 
+    public function punyaPeminjamanAktif(): bool
+    {
+        return $this->peminjaman()
+            ->whereIn('status_peminjaman', [
+                \App\Enums\StatusPeminjaman::Dipinjam,
+                \App\Enums\StatusPeminjaman::Terlambat
+            ])
+            ->exists();
+    }
+
+    public function punyaDenda(): bool
+    {
+        return (float) $this->peminjaman()->sum('jumlah_denda') > 0;
+    }
+
+    public function bisaDownloadSuratBebas(): bool
+    {
+        return !$this->punyaPeminjamanAktif() && !$this->punyaDenda();
+    }
+
     public function adalahAdmin(): bool
     {
         return $this->peran === PeranPengguna::Admin;

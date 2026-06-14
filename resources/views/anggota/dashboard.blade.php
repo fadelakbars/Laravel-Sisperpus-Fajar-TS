@@ -50,7 +50,7 @@
         </div>
 
         <section class="space-y-6">
-            <div class="grid gap-6 xl:grid-cols-4">
+            <div class="grid gap-6 xl:grid-cols-4 xl:items-end">
                 <div class="xl:col-span-3">
                     <h2 class="text-xl font-bold text-slate-900">Katalog Buku</h2>
                     <p class="mt-2 max-w-2xl text-sm text-slate-500">
@@ -58,20 +58,15 @@
                     </p>
                 </div>
 
-                <x-ui.card padding="p-4" class="h-full">
-                    <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex h-full flex-col justify-end gap-3">
-                        <x-ui.input
-                            label="Cari Buku"
-                            name="cari"
-                            :value="$kataKunci"
-                            placeholder="Judul, penulis, ISBN..."
-                            class="py-2"
-                        />
-                        <x-ui.button type="submit" class="w-full">
-                            Cari
-                        </x-ui.button>
-                    </form>
-                </x-ui.card>
+                <form method="GET" action="{{ route('anggota.dashboard') }}" class="flex w-full gap-2 xl:max-w-sm xl:justify-self-end">
+                    <x-ui.input
+                        name="cari"
+                        :value="$kataKunci"
+                        placeholder="Cari buku..."
+                        class="py-2"
+                    />
+                    <x-ui.button type="submit">Cari</x-ui.button>
+                </form>
             </div>
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">

@@ -60,14 +60,14 @@
                                     </x-ui.badge>
                                 </td>
                                 <td class="px-6 py-4 text-right whitespace-nowrap">
-                                    <div class="flex justify-end gap-3">
-                                        <a href="{{ route('admin.anggota.edit', $anggota) }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition">
+                                    <div class="flex justify-end items-center gap-4">
+                                        <a href="{{ route('admin.anggota.edit', $anggota) }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition flex items-center">
                                             Edit
                                         </a>
-                                        <form method="POST" action="{{ route('admin.anggota.destroy', $anggota) }}" onsubmit="return confirm('Hapus anggota ini?');">
+                                        <form method="POST" action="{{ route('admin.anggota.destroy', $anggota) }}" onsubmit="return confirm('Hapus anggota ini?');" class="flex items-center">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="text-sm font-semibold text-rose-600 hover:text-rose-900 transition">
+                                            <button class="text-sm font-semibold text-rose-600 hover:text-rose-900 transition flex items-center">
                                                 Hapus
                                             </button>
                                         </form>

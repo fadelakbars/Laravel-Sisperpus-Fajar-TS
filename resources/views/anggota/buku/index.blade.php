@@ -84,7 +84,7 @@
                 @endforelse
             </div>
 
-            <div class="mt-8">
+            <div class="mt-12 py-4 border-t border-slate-100">
                 {{ $daftarBuku->links() }}
             </div>
         </section>

@@ -108,7 +108,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="border-t border-slate-200 px-6 py-4">
+            <div class="border-t border-slate-100 px-6 py-4 bg-slate-50/50">
                 {{ $riwayatPeminjaman->links() }}
             </div>
         </x-ui.card>

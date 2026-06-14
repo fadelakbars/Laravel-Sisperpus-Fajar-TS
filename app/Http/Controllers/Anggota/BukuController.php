@@ -25,7 +25,7 @@ class BukuController extends Controller
                 });
             })
             ->orderBy('judul')
-            ->paginate(12)
+            ->paginate(8)
             ->withQueryString();
 
         return view('anggota.buku.index', [

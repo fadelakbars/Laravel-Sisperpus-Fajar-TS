@@ -107,8 +107,8 @@ class DatabaseSeeder extends Seeder
             );
         });
 
-        if (Buku::query()->count() < 6) {
-            Buku::factory(6 - Buku::query()->count())->create([
+        if (Buku::query()->count() < 20) {
+            Buku::factory(20 - Buku::query()->count())->create([
                 'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ]);
         }

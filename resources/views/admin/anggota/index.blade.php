@@ -55,8 +55,8 @@
                                     <div class="text-sm text-slate-600">{{ $anggota->email }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <x-ui.badge :variant="$anggota->peran === 'admin' ? 'primary' : 'neutral'">
-                                        {{ ucfirst($anggota->peran) }}
+                                    <x-ui.badge :variant="$anggota->peran->value === 'admin' ? 'primary' : 'neutral'">
+                                        {{ ucfirst($anggota->peran->value) }}
                                     </x-ui.badge>
                                 </td>
                                 <td class="px-6 py-4 text-right whitespace-nowrap">

@@ -86,7 +86,7 @@
                     <div class="flex items-center gap-x-3">
                         <div class="flex flex-col items-end">
                             <span class="text-sm font-semibold leading-6 text-slate-900">{{ auth()->user()->name }}</span>
-                            <span class="text-xs text-slate-500 uppercase tracking-wider">{{ auth()->user()->peran }}</span>
+                            <span class="text-xs text-slate-500 uppercase tracking-wider">{{ auth()->user()->peran->value }}</span>
                         </div>
                     </div>
                 </div>

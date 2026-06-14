@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,25 +17,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->updateOrCreate([
-            'email' => 'admin@sisperpus.test',
-        ], [
-            'name' => 'Admin Perpustakaan',
-            'nim' => null,
-            'peran' => 'admin',
-            'email_verified_at' => now(),
-            'password' => 'password',
-        ]);
+        $this->buatAtauPerbaruiPenggunaDemo(
+            ['admin@sisperpus.test', 'admin@libris.test'],
+            [
+                'name' => 'Admin Perpustakaan',
+                'nim' => null,
+                'peran' => 'admin',
+            ],
+        );
 
-        User::query()->updateOrCreate([
-            'email' => 'anggota@sisperpus.test',
-        ], [
-            'name' => 'Anggota Demo',
-            'nim' => '2300000001',
-            'peran' => 'anggota',
-            'email_verified_at' => now(),
-            'password' => 'password',
-        ]);
+        $this->buatAtauPerbaruiPenggunaDemo(
+            ['anggota@sisperpus.test', 'anggota@libris.test'],
+            [
+                'name' => 'Anggota Demo',
+                'nim' => '2300000001',
+                'peran' => 'anggota',
+            ],
+        );
 
         $bukuAwal = collect([
             [
@@ -103,5 +102,31 @@ class DatabaseSeeder extends Seeder
         if (Buku::query()->count() < 6) {
             Buku::factory(6 - Buku::query()->count())->create();
         }
+    }
+
+    /**
+     * @param  array<int, string>  $daftarEmail
+     * @param  array<string, mixed>  $atribut
+     */
+    private function buatAtauPerbaruiPenggunaDemo(array $daftarEmail, array $atribut): void
+    {
+        $emailUtama = $daftarEmail[0];
+
+        $pengguna = User::query()
+            ->whereIn('email', $daftarEmail)
+            ->orderByRaw('email = ? desc', [$emailUtama])
+            ->first() ?? new User;
+
+        $pengguna->forceFill([
+            ...$atribut,
+            'email' => $emailUtama,
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+        ])->save();
+
+        User::query()
+            ->where('id', '!=', $pengguna->id)
+            ->whereIn('email', $daftarEmail)
+            ->delete();
     }
 }

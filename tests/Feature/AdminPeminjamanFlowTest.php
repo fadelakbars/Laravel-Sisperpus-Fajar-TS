@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 test('admin dapat membuat peminjaman sekaligus beberapa buku dan stok buku berkurang', function () {
-    $this->withoutMiddleware();
     $admin = User::factory()->admin()->create();
     $anggota = User::factory()->anggota()->create();
     $buku1 = Buku::factory()->create(['stok' => 3]);

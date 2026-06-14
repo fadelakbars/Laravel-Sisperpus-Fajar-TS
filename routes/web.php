@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\Admin\BukuController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
             Route::resource('buku', BukuController::class)->except('show');
+            Route::resource('anggota', AnggotaController::class)
+                ->parameters(['anggota' => 'anggota'])
+                ->except('show');
         });
 
     Route::view('/anggota/dashboard', 'anggota.dashboard')

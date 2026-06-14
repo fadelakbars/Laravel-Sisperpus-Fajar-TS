@@ -5,7 +5,9 @@
             this.detailBuku = buku;
             this.$dispatch('open-modal', { name: 'detail-buku' });
         }
-    }" class="space-y-8">
+    }" 
+    @open-modal.window="if($event.detail.name === 'detail-buku') { /* modal akan terbuka via x-on di komponen modal */ }"
+    class="space-y-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Katalog Buku</h1>
             <p class="mt-2 text-sm text-slate-500">Telusuri koleksi lengkap buku perpustakaan kami.</p>
@@ -29,7 +31,7 @@
                     <x-ui.card 
                         padding="p-0" 
                         class="group transition-all hover:border-indigo-200 hover:shadow-md overflow-hidden cursor-pointer"
-                        @click="bukaDetail({{ json_encode([
+                        @click.stop="bukaDetail({{ json_encode([
                             'judul' => $buku->judul,
                             'penulis' => $buku->penulis,
                             'penerbit' => $buku->penerbit,

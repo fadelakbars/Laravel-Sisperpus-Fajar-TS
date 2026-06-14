@@ -12,7 +12,10 @@ test('anggota dapat melihat katalog buku dan riwayat peminjamannya sendiri', fun
     $anggota = User::factory()->anggota()->create();
     $anggotaLain = User::factory()->anggota()->create();
 
-    $bukuPertama = Buku::factory()->create(['judul' => 'Laravel Praktis']);
+    $bukuPertama = Buku::factory()->create([
+        'judul' => 'Laravel Praktis',
+        'gambar_sampul' => 'image/Pengantar_Ilmu_Komputer.webp',
+    ]);
     $bukuKedua = Buku::factory()->create(['judul' => 'Pemrograman Web Modern']);
     $bukuKetiga = Buku::factory()->create(['judul' => 'Basis Data Lanjut']);
 
@@ -37,6 +40,7 @@ test('anggota dapat melihat katalog buku dan riwayat peminjamannya sendiri', fun
     $response->assertSee('Basis Data Lanjut');
     $response->assertSee($anggota->nim);
     $response->assertDontSee($anggotaLain->nim);
+    $response->assertSee('image/Pengantar_Ilmu_Komputer.webp');
 });
 
 test('anggota dapat mencari buku dari dashboard', function () {

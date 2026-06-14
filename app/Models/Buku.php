@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'isbn',
@@ -58,6 +59,19 @@ class Buku extends Model
             return null;
         }
 
+        if ($this->gambarSampulDariAsetPublik()) {
+            return asset($this->gambar_sampul);
+        }
+
         return Storage::disk('public')->url($this->gambar_sampul);
+    }
+
+    public function gambarSampulDariAsetPublik(): bool
+    {
+        if ($this->gambar_sampul === null) {
+            return false;
+        }
+
+        return Str::startsWith($this->gambar_sampul, 'image/');
     }
 }

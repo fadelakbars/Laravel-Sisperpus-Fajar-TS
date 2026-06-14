@@ -67,7 +67,7 @@ class BukuController extends Controller
         $dataTervalidasi = $request->validated();
 
         if ($request->hasFile('gambar_sampul')) {
-            if ($buku->gambar_sampul !== null) {
+            if ($buku->gambar_sampul !== null && ! $buku->gambarSampulDariAsetPublik()) {
                 Storage::disk('public')->delete($buku->gambar_sampul);
             }
 
@@ -82,7 +82,7 @@ class BukuController extends Controller
 
     public function destroy(Buku $buku): RedirectResponse
     {
-        if ($buku->gambar_sampul !== null) {
+        if ($buku->gambar_sampul !== null && ! $buku->gambarSampulDariAsetPublik()) {
             Storage::disk('public')->delete($buku->gambar_sampul);
         }
 

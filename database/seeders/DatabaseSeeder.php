@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
+    private const COVER_DEFAULT_BUKU = 'image/Pengantar_Ilmu_Komputer.webp';
+
     /**
      * Seed the application's database.
      */
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2022,
                 'stok' => 5,
                 'lokasi_rak' => 'Rak A-1',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
             [
                 'isbn' => '9786230012457',
@@ -53,6 +56,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2021,
                 'stok' => 4,
                 'lokasi_rak' => 'Rak A-2',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
             [
                 'isbn' => '9786238899012',
@@ -62,6 +66,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2020,
                 'stok' => 6,
                 'lokasi_rak' => 'Rak B-1',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
             [
                 'isbn' => '9786020673318',
@@ -71,6 +76,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2023,
                 'stok' => 3,
                 'lokasi_rak' => 'Rak B-2',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
             [
                 'isbn' => '9786028519230',
@@ -80,6 +86,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2019,
                 'stok' => 2,
                 'lokasi_rak' => 'Rak C-1',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
             [
                 'isbn' => '9786237131458',
@@ -89,6 +96,7 @@ class DatabaseSeeder extends Seeder
                 'tahun_terbit' => 2021,
                 'stok' => 4,
                 'lokasi_rak' => 'Rak C-2',
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
             ],
         ]);
 
@@ -100,7 +108,9 @@ class DatabaseSeeder extends Seeder
         });
 
         if (Buku::query()->count() < 6) {
-            Buku::factory(6 - Buku::query()->count())->create();
+            Buku::factory(6 - Buku::query()->count())->create([
+                'gambar_sampul' => self::COVER_DEFAULT_BUKU,
+            ]);
         }
     }
 

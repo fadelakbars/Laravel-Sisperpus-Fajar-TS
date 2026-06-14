@@ -20,20 +20,38 @@
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 @forelse ($daftarBuku as $buku)
-                    <x-ui.card padding="p-5" class="group transition-all hover:border-indigo-200 hover:shadow-md">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
-                        <h3 class="mt-2 text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600">{{ $buku->judul }}</h3>
-                        <p class="mt-1 text-sm text-slate-500">{{ $buku->penulis }}</p>
-                        
-                        <div class="mt-6 flex items-center justify-between">
-                            <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'">
-                                {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
-                            </x-ui.badge>
-                            <span class="text-xs text-slate-400">Stok: {{ $buku->stok }}</span>
+                    <x-ui.card padding="p-0" class="group transition-all hover:border-indigo-200 hover:shadow-md overflow-hidden">
+                        <div class="aspect-[2/3] w-full overflow-hidden bg-slate-100 relative">
+                            @if($buku->gambar_sampul)
+                                <img src="{{ $buku->urlGambarSampul() }}" alt="{{ $buku->judul }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                            @else
+                                <div class="flex h-full w-full items-center justify-center text-slate-400">
+                                    <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                                    </svg>
+                                </div>
+                            @endif
+                            <div class="absolute top-3 right-3">
+                                <x-ui.badge :variant="$buku->stok > 0 ? 'success' : 'danger'" class="shadow-sm backdrop-blur-md bg-white/90">
+                                    {{ $buku->stok > 0 ? 'Tersedia' : 'Habis' }}
+                                </x-ui.badge>
+                            </div>
                         </div>
-                        <div class="mt-4 border-t border-slate-100 pt-4 flex items-center justify-between">
-                            <span class="text-[11px] font-medium text-slate-400 uppercase">Lokasi</span>
-                            <span class="text-xs font-semibold text-slate-600">{{ $buku->lokasi_rak }}</span>
+                        <div class="p-5">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $buku->isbn }}</p>
+                            <h3 class="mt-2 text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600 h-14">{{ $buku->judul }}</h3>
+                            <p class="mt-1 text-sm text-slate-500 truncate">{{ $buku->penulis }}</p>
+                            
+                            <div class="mt-4 border-t border-slate-100 pt-4 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-medium text-slate-400 uppercase">Lokasi</span>
+                                    <span class="text-xs font-semibold text-slate-600">{{ $buku->lokasi_rak }}</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-[10px] font-medium text-slate-400 uppercase">Stok</span>
+                                    <span class="text-xs font-semibold text-slate-600">{{ $buku->stok }}</span>
+                                </div>
+                            </div>
                         </div>
                     </x-ui.card>
                 @empty

@@ -64,8 +64,23 @@
                         @forelse ($riwayatPeminjaman as $peminjaman)
                             <tr>
                                 <td class="whitespace-nowrap px-6 py-4">
-                                    <div class="text-sm font-semibold text-slate-900">{{ $peminjaman->buku->judul }}</div>
-                                    <div class="text-xs text-slate-500">{{ $peminjaman->buku->isbn }}</div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-10 w-7 shrink-0 overflow-hidden rounded bg-slate-100 border border-slate-200">
+                                            @if($peminjaman->buku->gambar_sampul)
+                                                <img src="{{ $peminjaman->buku->urlGambarSampul() }}" alt="{{ $peminjaman->buku->judul }}" class="h-full w-full object-cover">
+                                            @else
+                                                <div class="flex h-full w-full items-center justify-center text-slate-300">
+                                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                                                    </svg>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-900 line-clamp-1">{{ $peminjaman->buku->judul }}</div>
+                                            <div class="text-xs text-slate-500">{{ $peminjaman->buku->isbn }}</div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4">
                                     <div class="text-sm text-slate-900">{{ $peminjaman->tanggal_pinjam?->format('d M Y') }}</div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AnggotaController;
 use App\Http\Controllers\Admin\BukuController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PeminjamanController;
 use App\Http\Controllers\Anggota\DashboardController as AnggotaDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
         ->as('admin.')
         ->middleware('admin')
         ->group(function () {
-            Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+            Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
             Route::resource('buku', BukuController::class)->except('show');
             Route::resource('anggota', AnggotaController::class)
                 ->parameters(['anggota' => 'anggota'])

@@ -15,7 +15,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-slate-500">Total Buku</p>
-                        <p class="text-2xl font-bold text-slate-900">--</p>
+                        <p class="text-2xl font-bold text-slate-900">{{ $statistik['total_buku'] }}</p>
                     </div>
                 </div>
             </x-ui.card>
@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-slate-500">Total Anggota</p>
-                        <p class="text-2xl font-bold text-slate-900">--</p>
+                        <p class="text-2xl font-bold text-slate-900">{{ $statistik['total_anggota'] }}</p>
                     </div>
                 </div>
             </x-ui.card>
@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-slate-500">Dipinjam</p>
-                        <p class="text-2xl font-bold text-slate-900">--</p>
+                        <p class="text-2xl font-bold text-slate-900">{{ $statistik['total_dipinjam'] }}</p>
                     </div>
                 </div>
             </x-ui.card>
@@ -57,7 +57,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-slate-500">Terlambat</p>
-                        <p class="text-2xl font-bold text-slate-900">--</p>
+                        <p class="text-2xl font-bold text-slate-900">{{ $statistik['total_terlambat'] }}</p>
                     </div>
                 </div>
             </x-ui.card>

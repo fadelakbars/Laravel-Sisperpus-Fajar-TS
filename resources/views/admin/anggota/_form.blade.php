@@ -31,14 +31,6 @@
         :required="!isset($anggota)" 
     />
 
-    <x-ui.input 
-        label="Konfirmasi Kata Sandi" 
-        name="password_confirmation" 
-        type="password" 
-        placeholder="Ulangi kata sandi" 
-        :required="!isset($anggota)" 
-    />
-
     <div class="space-y-1.5">
         <label for="peran" class="text-sm font-medium text-slate-700">Peran Pengguna</label>
         <select 
@@ -50,6 +42,14 @@
             <option value="admin" @selected(($anggota?->peran?->value ?? '') === 'admin')>Admin</option>
         </select>
     </div>
+
+    <x-ui.input 
+        label="Konfirmasi Kata Sandi" 
+        name="password_confirmation" 
+        type="password" 
+        placeholder="Ulangi kata sandi" 
+        :required="!isset($anggota)" 
+    />
 </div>
 
 <div class="mt-8 flex items-center justify-end gap-3">
